@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Prince of Persia - Rescue the princess</title>
+    <title>Klotzki Game</title>
     <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-    <script crossorigin src="https://cdn.jsdelivr.net/npm/body-scroll-lock@4.0.0-beta.0/lib/bodyScrollLock.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/react-grid-layout/1.3.4/css/styles.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-grid-layout/1.3.4/react-grid-layout.min.js"></script>
     <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
     <script crossorigin src="https://unpkg.com/@mui/material@latest/umd/material-ui.development.js"></script>
-    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/body-scroll-lock/3.1.5/bodyScrollLock.min.js"></script>
 
     <style>
       .wrapper {
@@ -99,7 +97,6 @@
     <script type="text/babel">
       const GridLayout = window.ReactGridLayout;
       const { Grid, Button, withStyles, Modal } = MaterialUI;
-      const { disableBodyScroll, clearAllBodyScrollLocks} = window.bodyScrollLock;
 
       const Statistics = ({ statistics }) => (
         <div>
@@ -144,7 +141,6 @@
       const [moves, setMoves] = React.useState(0); 
       const [startTime, setStartTime] = React.useState(new Date());
       const [statistics, setStatistics] = React.useState([]);
-      const [targetElement, setTargetElement] = React.useState(0); 
 
       const [state, setState] = React.useState({
          layout: JSON.parse(JSON.stringify(originalLayout)),
@@ -182,16 +178,7 @@
           }
         }
       };
-
-      const componentDidMount = () => {
-        setTargetElement(document.querySelector('#mainPanel'));
-        disableBodyScroll(this.targetElement);
-      };
-
-      const componentWillUnmount = () => {
-        clearAllBodyScrollLocks();
-      };
-
+      
         const onDragStart = (layout, oldItem, newItem, placeholder, e, element) => {
           setState({
             prevLayout : Object.assign([], layout.slice(0,10)),
