@@ -6,11 +6,12 @@ Implementation of the famous [Klotzki Game](https://en.wikipedia.org/wiki/Klotsk
 
 ## Open Source References
 
-* [React 17](https://react.dev)
-* [react-grid-layout 1.3.4](https://github.com/react-grid-layout/react-grid-layout)
-* [babel-standalone 6.26.0](https://babeljs.io/docs/babel-standalone)
-* [material-ui 5.11.14](https://mui.com)
-* [Flaticons](https://www.flaticon.com)
+* [React 17](https://react.dev) - MIT
+* [react-grid-layout 1.3.4](https://github.com/react-grid-layout/react-grid-layout) - MIT
+* [babel-standalone 6.26.0](https://babeljs.io/docs/babel-standalone) - MIT
+* [material-ui 5.11.14](https://mui.com) - MIT
+* [Flaticons](https://www.flaticon.com) - [License](h[ttps://flaticons.co/license](https://www.freepikcompany.com/legal?&_ga=2.9709813.196746592.1679815395-1293657094.1679815395&_gl=1*k39mal*test_ga*MTI5MzY1NzA5NC4xNjc5ODE1Mzk1*test_ga_523JXC6VL7*MTY3OTgzOTc5Ni40LjEuMTY3OTg0MTU2Ny4zNy4wLjA.*fp_ga*MjQ5MjIyMDgyLjE2Nzk4NDE1NjA.*fp_ga_1ZY8468CQB*MTY3OTgzOTc5Ni40LjEuMTY3OTg0MTU2Ny4zNy4wLjA.#nav-flaticon-agreement))
+* [Japn-klotzki](https://github.com/ziqingW/Japan-klotski) - MIT
 
 ## License
 MIT
