@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Prince of Persia - Rescue the princess</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://cdn.jsdelivr.net/npm/body-scroll-lock@4.0.0-beta.0/lib/bodyScrollLock.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/react-grid-layout/1.3.4/css/styles.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-grid-layout/1.3.4/react-grid-layout.min.js"></script>
+    <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/@mui/material@latest/umd/material-ui.development.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/body-scroll-lock/3.1.5/bodyScrollLock.min.js"></script>
+
+    <style>
+      .wrapper {
+        min-height: 100vh;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .MuiGrid-root.MuiGrid-container.frame {
+        width: 300px;
+      }
+
+      .frame {
+        border : 1px solid black;
+        width: 300px;
+        height: 380px;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: rgba(249, 249, 97, 0.5);
+        overflow: hidden;
+      }
+
+      .grid {
+        font-family: wt034;
+        box-shadow: 2px 2px 3px black;
+        border-radius: 2px;
+        box-sizing: border-box;
+        font-size: 3em;
+        color: #202020;
+        text-shadow: 1px 1px 1px #ccc;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+
+      .sBlock {
+        font-size: 1.5em;
+        color: #3d2b20;
+        text-shadow: 1px 1px 1px white;
+        background-color: grey;
+        border: 1px solid black;
+      }
+
+      .wBlock {
+        text-shadow: 1px 1px 1px blue;
+        background-color: grey;
+        border: 1px solid black;
+      }
+
+      .vBlock {
+        text-shadow: 1px 1px 1px yellow;
+        background-color: grey;
+        border: 1px solid black;
+      }
+
+      .bBlock {
+        font-size: 5em;
+        color: #e04c23;
+        background-color: #e04c23;
+        border: 1px solid black;
+        text-shadow: 2px 2px 1px black;
+      }
+
+      .button {
+        margin-top: 20px;
+        font-size: 12px;
+        margin: 5px !important;
+      }
+
+      .modalScreen {
+        min-height: 100vh;
+        background-color: rgba(255,255,255,0.7);
+      }
+
+      .modalContent {
+        width: 430px;
+        height: 300px;
+        text-align: center;
+      }
+  </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const GridLayout = window.ReactGridLayout;
+      const { Grid, Button, withStyles, Modal } = MaterialUI;
+      const { disableBodyScroll, clearAllBodyScrollLocks} = window.bodyScrollLock;
+
+      const Statistics = ({ statistics }) => (
+        <div>
+          <h2>Game Statistics</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Moves</th>
+                <th>Time</th>
+                <th>Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              {statistics.map(({ name, moves, time, completed}, index) => (
+                <tr key={index}>
+                  <td>{name}</td>
+                  <td>{moves}</td>
+                  <td>{time}</td>
+                  <td>{completed === true ? 'Completed' : 'Aborted'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+      const App = () => {    
+        const layout = [
+          {i: "0", x: 0, y: 0, w: 1, h: 2, name: "https://cdn-icons-png.flaticon.com/512/2328/2328493.png"},
+          {i: "1", x: 1, y: 0, w: 2, h: 2, name: "https://cdn-icons-png.flaticon.com/512/6970/6970450.png"},
+          {i: "2", x: 3, y: 0, w: 1, h: 2, name: "https://cdn-icons-png.flaticon.com/512/2328/2328493.png"},
+          {i: "3", x: 0, y: 2, w: 1, h: 2, name: "https://cdn-icons-png.flaticon.com/512/2328/2328493.png"},
+          {i: "4", x: 1, y: 2, w: 2, h: 1, name: "https://cdn-icons-png.flaticon.com/512/2328/2328493.png"},
+          {i: "5", x: 1, y: 3, w: 1, h: 1, name: "https://cdn-icons-png.flaticon.com/512/2328/2328493.png"},
+          {i: "6", x: 2, y: 3, w: 1, h: 1, name: "https://cdn-icons-png.flaticon.com/512/2328/2328493.png"},
+          {i: "7", x: 3, y: 2, w: 1, h: 2, name: "https://cdn-icons-png.flaticon.com/512/2328/2328493.png"},
+          {i: "8", x: 0, y: 4, w: 1, h: 1, name: "https://cdn-icons-png.flaticon.com/512/2328/2328493.png"},
+          {i: "9", x: 4, y: 4, w: 1, h: 1, name: "https://cdn-icons-png.flaticon.com/512/2328/2328493.png"},
+        ];
+
+      const originalLayout = Object.assign([],layout);
+      const [moves, setMoves] = React.useState(0); 
+      const [startTime, setStartTime] = React.useState(new Date());
+      const [statistics, setStatistics] = React.useState([]);
+      const [targetElement, setTargetElement] = React.useState(0); 
+
+      const [state, setState] = React.useState({
+         layout: JSON.parse(JSON.stringify(originalLayout)),
+         prevLayout: [],
+         dragged: null,
+         win: false
+      }); 
+
+      React.useEffect(() => {
+          const fetchStatistics = async () => {
+            const statistics = await google.script.run.withSuccessHandler (function (result) {
+              setStatistics(result);
+            }).loadStatistics();
+          };
+
+          fetchStatistics();
+        }, []);
+
+       const onLayoutChange = layout => {
+          const dragged = state.dragged
+          if (dragged) {
+            const currentLayout = layout.slice(0,10)
+            const newItem = currentLayout[dragged]
+            const oldItem = state.prevLayout[dragged]
+            if (newItem.x !== oldItem.x || newItem.y !== oldItem.y) {
+                if (Math.abs(newItem.x - oldItem.x) >1 || Math.abs(newItem.y - oldItem.y) > 1 || (Math.abs(newItem.x - oldItem.x) >=1 && Math.abs(newItem.y - oldItem.y) >= 1)) {
+                  global.location.reload()
+                } else {
+                  let win = false
+                  if (newItem.i === "1" && newItem.x === 1 && newItem.y ===3) {
+                    win = true
+                  }
+                  setState({layout: currentLayout, win: win})
+                }
+          }
+        }
+      };
+
+      const componentDidMount = () => {
+        setTargetElement(document.querySelector('#mainPanel'));
+        disableBodyScroll(this.targetElement);
+      };
+
+      const componentWillUnmount = () => {
+        clearAllBodyScrollLocks();
+      };
+
+        const onDragStart = (layout, oldItem, newItem, placeholder, e, element) => {
+          setState({
+            prevLayout : Object.assign([], layout.slice(0,10)),
+            dragged : state.dragged,
+            layout : state.layout,
+            win : state.win
+          })
+        };
+
+        const onDragStop = (layout, oldItem, newItem, placeholder, e, element) => {
+          setState({
+            dragged: parseInt(newItem.i),
+            prevLayout : state.prevLayout,
+            layout : state.layout,
+            win: state.win
+          });
+
+          setMoves(moves + 1);
+        };
+
+        const handleClose = () => {
+        };
+
+        const reset = e => {
+          setState({
+            layout: Object.assign([],layout),
+            win: false,
+            prevLayout: [],
+            dragged: null
+          });
+
+          setMoves(0);
+          setStartTime(new Date());
+        };
+
+        const handleSaveGameplay = async () => {
+          const name = prompt("Enter your name:");
+          const elapsedTime = Math.round((new Date() - startTime) / 1000);
+          const elapsedTimeFormatted = `${Math.floor(elapsedTime / 60)}m ${elapsedTime % 60}s`;
+
+          if (name) {
+            const response = await google.script.run.withSuccessHandler(() => {
+                reset();
+            }).withFailureHandler((error) => {
+              console.error(error);
+              alert("Failed to save statistics.");
+            }).saveStatistics(name, moves, elapsedTimeFormatted, state.win);
+          }
+        };
+
+        return (
+           <Grid container direction="column" justify="flex-start" alignItems="center" className="wrapper" id="mainPanel">
+            <h1 style={{margin: "15px 0 0 0", textShadow: "1px 1px 1px white"}}>Prince of Persia</h1>
+            <h4 style={{margin: "5px 0"}}><i>-- Move the prince to the bottom in order to rescue the princess.--</i></h4>
+            <Grid container justify="flex-start" className="frame" width="50">
+              <GridLayout className="wrapper" layout={state.layout} cols={4} rowHeight={70} width={280} margin={[2,2]} containerPadding = {[0,0]} isResizable={false} preventCollision={true} compactType={null} onLayoutChange={onLayoutChange} onDragStart={onDragStart} onDragStop={onDragStop} draggableHandle=".moving-grid">
+                {layout.map((block, i) => {
+                  const classTag = ([0,2,3,7].includes(i) ? 'vBlock' : ([5,6,8,9].includes(i) ? 'sBlock' : (i === 4 ? 'wBlock' : 'bBlock')))
+                  return (
+                    <div className={state.win ? ['grid', classTag] : ['grid', "moving-grid", classTag]} key={block.i}>
+                      <img src={block.name} alt="icon" width="32" height="32"/>
+                    </div>
+              )}
+                )}
+                <div key="z" data-grid={{x: 0, y: 5, w: 4, h: 3, static: true}}></div>
+              </GridLayout>
+            </Grid>
+            <Grid container justify="center" direction="column" alignItems="center">
+              <img src="https://cdn-icons-png.flaticon.com/512/1596/1596580.png" alt="icon" width="32" height="32"/>
+              <Button variant="contained" className="button" onClick={reset}>
+                Restart
+              </Button>
+              <Button variant="contained" className="button" onClick={handleSaveGameplay}>
+                Save Gameplay
+              </Button>
+              <p>Moves: {moves}</p>
+              <Statistics statistics={statistics} />
+          </Grid>
+          <Modal open={state.win}>
+            <Grid container direction="column" justify="center" alignItems="center" className="modalScreen">
+              <Grid container direction="column" justify="center" alignItems="center" className="modalContent">
+                <div>
+                  <h3>Yay! You rescued the princess!</h3>
+                </div>
+                <Button style={{marginTop:"50px"}} variant="contained" color="primary" onClick={handleSaveGameplay}>
+                  Save Gameplay
+                </Button>
+            </Grid>
+            </Grid>
+          </Modal>
+        </Grid>
+        );
+      };
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
