@@ -38,7 +38,7 @@ const SPREADSHEET_ID = ADD YOUR GOOGLE SHEET ID HERE;
 ``` npm install -g @google/clasp ```
 
 4. Login to clasp 
-
+Make sure you are in the root of the klotzki project. 
 Run the following command in the terminal to log in with your Google account: ``` clasp login ```
 This will open a browser window where you need to authorize clasp to access your Google account.
 
