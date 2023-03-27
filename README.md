@@ -1,8 +1,10 @@
 # Klotzki Game
 
 Implementation of the famous [Klotzki Game](https://en.wikipedia.org/wiki/Klotski), using React for frontend and Google App script as backend. 
+[Try out the game](https://script.google.com/macros/s/AKfycbzzTskTDKPb6Nrl6KBGlOf53cm7sksKEeVFJlLtVzO7cTqPTsUGmWAi4YXG-VV550fz/exec) 
 
 <img src="klotzki.png" width="40%" />
+
 
 ## Open Source References
 
@@ -10,19 +12,20 @@ Implementation of the famous [Klotzki Game](https://en.wikipedia.org/wiki/Klotsk
 * [react-grid-layout 1.3.4](https://github.com/react-grid-layout/react-grid-layout) - MIT
 * [babel-standalone 6.26.0](https://babeljs.io/docs/babel-standalone) - MIT
 * [material-ui 5.11.14](https://mui.com) - MIT
-* [Flaticons](https://www.flaticon.com) - [License](h[ttps://flaticons.co/license](https://www.freepikcompany.com/legal?&_ga=2.9709813.196746592.1679815395-1293657094.1679815395&_gl=1*k39mal*test_ga*MTI5MzY1NzA5NC4xNjc5ODE1Mzk1*test_ga_523JXC6VL7*MTY3OTgzOTc5Ni40LjEuMTY3OTg0MTU2Ny4zNy4wLjA.*fp_ga*MjQ5MjIyMDgyLjE2Nzk4NDE1NjA.*fp_ga_1ZY8468CQB*MTY3OTgzOTc5Ni40LjEuMTY3OTg0MTU2Ny4zNy4wLjA.#nav-flaticon-agreement))
+* [Flaticons](https://www.flaticon.com) - [License](https://www.freepikcompany.com/legal?&_ga=2.69952080.196746592.1679815395-1293657094.1679815395&_gl=1*17bia8h*fp_ga*MjQ5MjIyMDgyLjE2Nzk4NDE1NjA.*fp_ga_1ZY8468CQB*MTY3OTg3NTY0OC41LjAuMTY3OTg3NTY0OC42MC4wLjA.*test_ga*MTI5MzY1NzA5NC4xNjc5ODE1Mzk1*test_ga_523JXC6VL7*MTY3OTg3NTY0OC41LjAuMTY3OTg3NTY0OC42MC4wLjA.#nav-flaticon-agreement)
 * [Japn-klotzki](https://github.com/ziqingW/Japan-klotski) - MIT
 
 ## License
 MIT
 
-## Running the game
+## Setting up the game
 
 ### Prerequisite
 
 * [NodeJS]( https://nodejs.org/)
 * Google account
 * [Google Sheet](http://sheets.google.com)
+* Git CLI
 
 ### Steps
 
