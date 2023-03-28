@@ -142,11 +142,39 @@
       const [startTime, setStartTime] = React.useState(new Date());
       const [statistics, setStatistics] = React.useState([]);
 
+      const isColliding = (item1, item2) => {
+        return (
+            item1.x < item2.x + item2.w &&
+            item1.x + item1.w > item2.x &&
+            ((item1.y < item2.y + item2.h && item1.y + item1.h > item2.y) ||
+              (item1.y + item1.h > item2.y && item1.y < item2.y + item2.h))
+          );
+      };
+
+      const isValidMove = (newItem, oldItem, currentLayout) => {
+        const dx = Math.abs(newItem.x - oldItem.x);
+        const dy = Math.abs(newItem.y - oldItem.y);
+
+        if ((dx > 1 || dy > 1) || (dx === 1 && dy === 1)) {
+          return false;
+        }
+
+        for (let i = 0; i < currentLayout.length; i++) {
+          const item = currentLayout[i];
+          if (item.i !== newItem.i && isColliding(newItem, item)) {
+            return false;
+          }
+        }
+
+      return true;
+    };
+
       const [state, setState] = React.useState({
          layout: JSON.parse(JSON.stringify(originalLayout)),
          prevLayout: [],
          dragged: null,
-         win: false
+         win: false,
+         refreshKey: 0,
       }); 
 
       React.useEffect(() => {
@@ -158,6 +186,7 @@
 
           fetchStatistics();
         }, []);
+
 
        const onLayoutChange = layout => {
           const dragged = state.dragged
@@ -178,27 +207,31 @@
           }
         }
       };
-      
+    
         const onDragStart = (layout, oldItem, newItem, placeholder, e, element) => {
+          const slicedLayout = layout.slice(0, 10);
           setState({
-            prevLayout : Object.assign([], layout.slice(0,10)),
-            dragged : state.dragged,
-            layout : state.layout,
-            win : state.win
-          })
+            prevLayout: slicedLayout,
+            dragged: state.dragged,
+            layout: state.layout,
+            win: state.win,
+          });
         };
 
-        const onDragStop = (layout, oldItem, newItem, placeholder, e, element) => {
-          setState({
-            dragged: parseInt(newItem.i),
-            prevLayout : state.prevLayout,
-            layout : state.layout,
-            win: state.win
-          });
+        const onDragStop = (layout, oldItem, newItem) => {
+          const index = parseInt(newItem.i);
+          if (index) {
+            const prevLayout = state.prevLayout[index];
+            if (!isValidMove(newItem, prevLayout, layout)) {
+              const revertedLayout = [...layout];
+              revertedLayout[index] = prevLayout;
+              setState((prevState) => ({ ...prevState, layout: revertedLayout, refreshKey: prevState.refreshKey + 1 }));
+
+            }
+          }
 
           setMoves(moves + 1);
         };
-
         const reset = e => {
           setState({
             layout: Object.assign([],layout),
@@ -231,7 +264,7 @@
             <h1 style={{margin: "15px 0 0 0", textShadow: "1px 1px 1px white"}}>Prince of Persia</h1>
             <h4 style={{margin: "5px 0"}}><i>-- Move the prince to the bottom in order to rescue the princess.--</i></h4>
             <Grid container justify="flex-start" className="frame" width="50">
-              <GridLayout className="wrapper" layout={state.layout} cols={4} rowHeight={70} width={280} margin={[2,2]} containerPadding = {[0,0]} isResizable={false} preventCollision={true} compactType={null} onLayoutChange={onLayoutChange} onDragStart={onDragStart} onDragStop={onDragStop} draggableHandle=".moving-grid">
+              <GridLayout key={state.refreshKey} className="wrapper" layout={state.layout} cols={4} rowHeight={70} width={280} margin={[2,2]} containerPadding = {[0,0]} isResizable={false} preventCollision={true} compactType={null} onLayoutChange={onLayoutChange} isBounded={true} onDragStart={onDragStart} onDragStop={onDragStop} draggableHandle=".moving-grid" isDraggable={true}>
                 {layout.map((block, i) => {
                   const classTag = ([0,2,3,7].includes(i) ? 'vBlock' : ([5,6,8,9].includes(i) ? 'sBlock' : (i === 4 ? 'wBlock' : 'bBlock')))
                   return (
